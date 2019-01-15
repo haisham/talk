@@ -147,7 +147,9 @@ class Talk
         if ($conversationId === false) {
             $conversation = $this->conversation->create([
                 'user_one' => $user['one'],
+                'user_one_has_archived' => 0,
                 'user_two' => $user['two'],
+                'user_two_has_archived' => 0,
                 'status' => 1,
             ]);
 
@@ -260,7 +262,8 @@ class Talk
     {
         if ($conversationId = $this->isConversationExists($receiverId)) {
             $message = $this->makeMessage($conversationId, $message);
-
+            $conversation = $this->conversation->find($conversationId);
+            $this->conversation->update($conversationId, ['user_one_has_archived' => 0, 'user_two_has_archived' => 0]);  
             return $message;
         }
 
@@ -546,6 +549,24 @@ class Talk
         }
 
         return false;
+    }
+
+    /**
+     * archive message threat or conversation by conversation id.
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function archiveConversations($conversationId)
+    {
+        $conversation = $this->conversation->find($conversationId);
+        
+        if ($conversation->user_one == $this->authUserId) {
+            $this->conversation->update($conversationId, ['user_one_has_archived' => 1]);  
+        } else {
+            $this->conversation->update($conversationId, ['user_two_has_archived' => 1]);  
+        }
     }
 
     /**
