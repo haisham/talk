@@ -59,7 +59,7 @@ class Message extends Model implements HtmlStringInterface
             config('talk.user.model', 'App\User'),
             config('talk.user.foreignKey'),
             config('talk.user.ownerKey')
-        );
+        )->with('photo');
     }
 
     /*
