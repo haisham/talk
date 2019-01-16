@@ -131,9 +131,9 @@ class ConversationRepository extends Repository
             $conversationWith = ($thread->userone->id == $user) ? $thread->usertwo : $thread->userone;
             $collection->conv = $thread->messages->first();
             $collection->user_one = $thread->user_one;
-            $collection->user_one_has_archived = $thread->user_user_one_has_archived;
+            $collection->user_one_has_archived = $thread->user_one_has_archived;
             $collection->user_two = $thread->user_two;
-            $collection->user_two_has_archived = $thread->user_user_two_has_archived;
+            $collection->user_two_has_archived = $thread->user_two_has_archived;
             $collection->withUser = $conversationWith;
             $threads[] = $collection;
         }
