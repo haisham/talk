@@ -11,8 +11,10 @@ class Conversation extends Model
     public $fillable = [
         'user_one',
         'user_one_has_archived',
+        'user_one_has_unread',
         'user_two',
         'user_two_has_archived',
+        'user_two_has_unread',
         'status',
     ];
 

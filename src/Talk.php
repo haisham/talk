@@ -558,7 +558,7 @@ class Talk
      *
      * @return bool
      */
-    public function archiveConversations($conversationId)
+    public function archiveConversation($conversationId)
     {
         $conversation = $this->conversation->find($conversationId);
         
@@ -566,6 +566,74 @@ class Talk
             $this->conversation->update($conversationId, ['user_one_has_archived' => 1]);  
         } else {
             $this->conversation->update($conversationId, ['user_two_has_archived' => 1]);  
+        }
+    }
+
+    /**
+     * unarchive message threat or conversation by conversation id.
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function unArchiveConversation($conversationId)
+    {
+        $conversation = $this->conversation->find($conversationId);
+        
+        if ($conversation->user_one == $this->authUserId) {
+            $this->conversation->update($conversationId, ['user_one_has_archived' => 0]);  
+        } else {
+            $this->conversation->update($conversationId, ['user_two_has_archived' => 0]);  
+        }
+    }
+
+    /**
+     * unarchive message threat or conversation by user id.
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function unArchiveConversationForAll($conversationId)
+    {
+        $conversation = $this->conversation->find($conversationId);
+        $this->conversation->update($conversationId, ['user_one_has_archived' => 0, 'user_two_has_archived' => 0]);  
+    
+    }
+
+    /**
+     * Make conversation seen.
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function makeConversationSeen($conversationId)
+    {
+        $conversation = $this->conversation->find($conversationId);
+        
+        if ($conversation->user_one == $this->authUserId) {
+            $this->conversation->update($conversationId, ['user_one_has_unread' => 0]);  
+        } else {
+            $this->conversation->update($conversationId, ['user_two_has_unread' => 0]);  
+        }
+    }
+
+    /**
+     * Make conversation unseen.
+     *
+     * @param int $id
+     *
+     * @return bool
+     */
+    public function makeConversationUnSeen($userId, $conversationId)
+    {
+        $conversation = $this->conversation->find($conversationId);
+        
+        if ($conversation->user_one == $userId) {
+            $this->conversation->update($conversationId, ['user_one_has_unread' => 1]);  
+        } else {
+            $this->conversation->update($conversationId, ['user_two_has_unread' => 1]);  
         }
     }
 
