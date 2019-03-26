@@ -42,6 +42,6 @@ class Conversation extends Model
    * */
     public function usertwo()
     {
-        return $this->belongsTo(config('talk.user.model', 'App\User'),  'user_two', config('talk.user.ownerKey'));
+        return $this->belongsTo(config('talk.user.model', 'App\User'),  'user_two', config('talk.user.ownerKey'))->with('photo');
     }
 }
